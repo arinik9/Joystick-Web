@@ -1,0 +1,162 @@
+#infosPil {
+    width:600px;
+    height:200px;
+    background : grey;
+    color:white;
+    font-size:14px;
+    text-align:center;
+    margin-left: auto;
+    margin-right:auto;
+    border-width:6px;
+    border-style:solid;
+    border-color: inherit;
+    border-radius:100px;
+}
+
+.connected,
+.connected canvas{
+    border-color: green;
+}
+
+.disconnected,
+.disconnected canvas{
+    border-color: red;
+}
+
+.disconnected .pressed{
+    background: red;
+}
+
+.connected .pressed{
+    background: green;
+}
+
+canvas{
+    border-style:solid;
+}
+
+#myCanvas {
+    border-radius:50%;
+    background : red;
+    margin-left:20%;
+    margin-top:5%;
+    border-width:2px;
+}
+
+#canvasUp{
+    position:relative;
+    border-width:2px;
+    margin-bottom:10%;
+
+}
+#canvasRight{
+    position:relative;
+    border-width:2px;
+    margin-bottom:5%;
+    
+}
+#canvasLeft{
+    position:relative;
+    border-width:2px;
+    margin-bottom:5%;
+    left:85px;
+    
+}
+#canvasDown{
+    position:relative;
+    left:85px;
+}
+
+
+.button-TCP  /*Connecté*/
+{
+    width:240px;
+    height:60px;
+    background: #787878;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.button-TCP-hover  /*Connecté*/
+{
+    width:240px;
+    height:60px;
+    background: #484848;
+    font-size:28px;
+    font-weight:bold;
+}
+
+/*#myButton1
+{
+    width:200px;
+    height:60px;
+    background: url(button2.png) ;
+    background-position: -36px -242px;
+    font-size:28px;
+    font-weight:bold;
+}*/
+
+.button-deconnecte
+{
+    width:200px;
+    height:60px;
+    background: url(buttonred.png) ;/*no-repeat*/
+    background-position: -36px -142px;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.button-connecte
+{
+    width:200px;
+    height:60px;
+    background: url(button2.png) ;/*no-repeat*/
+    background-position: -16px -242px;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.button-connecte:hover
+{
+    width:200px;
+    height:60px;
+    background: url(button2.png) ;
+    background-position: -176px -242px;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.button-deconnecte:hover
+{
+    width:200px;
+    height:60px;
+    background: url(buttonred.png) ;/*no-repeat*/
+    background-position: -60px -110px;
+    font-size:28px;
+    font-weight:bold;
+}
+
+
+
+#zoneButton
+{
+    text-align:center;
+}
+#zoneText1
+{
+    text-align:center;
+    font-size:36px;
+    font-weight:bold;
+    
+}
+
+
+
+
+#titrePil{
+   /* background:black; Fond*/
+   /* color:white; Couleur du texte*/
+    font-size:24px; /*Taille du texte*/
+   /* text-align:center; Alignement du texte*/
+    font-weight:bold; /*Balise de type de texte : gras, italique */ 
+}
