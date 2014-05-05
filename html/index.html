@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    
+        <meta charset="utf-8" />
+        <title>QuadCopter</title>
+        <!-- CSS -->
+        <link rel="stylesheet" href="../css/style.css">
+        <!-- JS - librairies -->
+        <script src="../js/jquery-1.9.1.js"></script>
+        <!-- JS - perso -->
+        <script src="../js/main.js"></script>
+        <script src="../js/socket.io/lib/socket.io.js"></script>
+       
+       <!--DESACTIVE LA SELECTION DE TEXTE-->
+        <script type="text/javascript">
+        //<!--
+                function ffalse()
+                {
+                        return false;
+                }
+                function ftrue()
+                {
+                        return true;
+                }
+                document.onselectstart = new Function ("return false");
+                if(window.sidebar)
+                {
+                        document.onmousedown = ffalse;
+                        document.onclick = ftrue;
+                }
+        //-->
+        </script>
+    
+    </head>
+    
+    <body class="disconnected">
+     
+    
+        
+      <!--  <figure>
+        <img src='marian.jpg'id="scutu" alt="Salut"/>
+        <figcaption id="legendeScutu">Praise the Great Lord Scuturici</figcaption>
+        </figure>-->
+        
+        <div  id="infosPil">
+        
+            <div id="titrePil">Infos de pilotage</div>
+            <br/>Bievenue sur l'interface de commande du QuadCopter. <br/> Vous disposez, pour piloter l'engin, d'un joystick et de quatre directions commandées avec les touches Z,Q,S,D
+            <br/> Un bouton Connexion/Déconnexion vous permet d'initialiser et de stopper la communication avec le drone.<br/> Une zone colorée s'affichera alors pour vous indiquer l'état de la connexion.
+            <br/> Une bannière apparaîtra en haut de la page en cas de problème.
+        
+        </div>
+        
+       <div id="canvas">
+        
+        <canvas id="canvasLeft" width="75" height="75"> 
+        </canvas>
+        <canvas id="canvasDown" width="75" height="75"> 
+        </canvas>
+        <canvas id="canvasUp" width="75" height="75"> 
+        </canvas>
+        <canvas id="canvasRight" width="75" height="75"> 
+        </canvas>
+        <canvas id="myCanvas" width="400" height="400" >
+        </canvas>
+        
+        </div>
+        
+        <div id="zoneText2" > DIV1	</div> 
+        <div id="zoneText3" >DIV2	</div> 
+        <div id="zoneText4" >DIV3	</div> 
+        <div id="zoneButton">
+        <input type="button" value="Connexion" id="myButton1" class="button-deconnecte"></input>
+        
+        <input type="button" value="TCP WebSocket" id="buttonWeb" class="button-TCP"></input>
+        </div>
+        <div id="zoneText1" > Déconnecté	</div> 
+        
+    
+    </body>
+</html>
