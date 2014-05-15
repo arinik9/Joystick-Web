@@ -31,6 +31,15 @@ var flag2=false;
 var flag3=false;
 var flag4=false;
 var socket;
+var mouseClique=0;
+var connectDone=0;
+var declique=0;
+
+setInterval(function(){
+if(connexion == 1 && declique==0 && pressed==1){
+appelerFonctionMouse(avant, droite)
+}
+}, 30);
 
 /* RAPPEL
         document.getElementsByTagName("canvas")[0].getBoundingClientRect()    --> pour recuprerr toutes les infos sur l'objer canvas
@@ -38,7 +47,7 @@ var socket;
 var leftCanvas = document.getElementsByTagName("canvas")[4].getBoundingClientRect().left;
 var topCanvas = document.getElementsByTagName("canvas")[4].getBoundingClientRect().top;
 
-socket = io.connect('http://localhost:4040');	
+	
 
 //----------------------------------------------------------------------------------------------------------------------------------------FIN DE LA RECUP'
  
@@ -171,7 +180,7 @@ fleche="sd";
 
 function unclick(e)
 {
-    
+    declique=1;
     pressed=0;
 	droite=-1;//Pour récuperer les infos de joyStick pour envoyer au server
 	avant=-1;//Pour récuperer les infos de joyStick pour envoyer au server
@@ -220,6 +229,8 @@ function clicked(event)
     topCanvas = document.getElementsByTagName("canvas")[4].getBoundingClientRect().top+$(document).scrollTop();
     if(Math.sqrt(Math.pow(event.pageX-(leftCanvas+centreX+10),2)+Math.pow(event.pageY-(topCanvas+centreY+10),2))<rayonStick){
         pressed=1;
+		mouseClique=1;
+		declique=0;
     }
 }
 
@@ -228,7 +239,7 @@ function clicked(event)
 
 
 
-function updateRond(event) //A REVOIR
+function updateRond(event) 
 {
     
     if(pressed==1)
@@ -285,9 +296,6 @@ function updateRond(event) //A REVOIR
 			droite = (event.pageX-(leftCanvas+centreX+10))/2;//Pour récuperer les infos de joyStick pour envoyer au server
 			avant = ((topCanvas+centreY+10)-event.pageY)/2;//Pour récuperer les infos de joyStick pour envoyer au server
 			appelerFonctionMouse(avant, droite);//Pour récuperer les infos de joyStick pour envoyer au server
-			
-			//var socket = io.connect('http://localhost:4040');
-			//socket.emit('message',"avant= "+avant+" - droite= "+droite);
         }
    }
    
@@ -303,49 +311,19 @@ function updateRond(event) //A REVOIR
 
 //------------------------------------------------------------------------------------------------------------------------------------------------FONCTIONS BOUTONS    
    
-   /*Referrence: http://www.w3schools.com/jquery/jquery_events.asp*/
-   
-   //Button for TCP connections
-   
-    $("#buttonWeb").hover(function(){
-    $("#buttonWeb").toggleClass("button-TCP-hover");
-    });
-   
-   
-   $("#buttonWeb").click(function(){
-   if(connexion == 0){
-		connexion=1;
-
-		}
-	else{
-	connexion = 0;
-		//socket.disconnect();
-	}
-   });
-   
-
-
-   
-   
-   /*******************************************************************************/
-   //Button Effect
-//     $("#myButton1").hover(function(){ // quand le soruis est sur le bouton, on verifie si la variable click vaut 0 ou 1
-//      if(click==0){ /*Connecté*/
-//	  $("#myButton1").toggleClass("button-hover-clickZero"); // button-hover-clickZero  et  button-hover-clickUn sont 2 class dans le fichier .css
-//      }
-//      if(click==1){ /*Déconnecté*/
-//	  $("#myButton1").toggleClass("button-hover-clickUn"); 
-//      }
-//    });
-         /*   $('#myButton1').click(function () {
-                socket.emit('message', 'Connard');
-            });*/
-
-    
-   /* document.getElementById('myButton1').onclick=function(){*/
     $("#myButton1").click(function(){
        if(click==0)
        {   
+		   if(connectDone == 0){
+				socket = io.connect('http://localhost:4040');
+				connectDone=1;
+				connexion=1;
+			}
+			else{
+				socket.socket.connect();
+				connexion=1;
+			}
+			
             $('body').addClass('connected');
             $('body').removeClass('disconnected');
             $("#myButton1").removeClass("button-deconnecte").addClass("button-connecte");
@@ -353,6 +331,8 @@ function updateRond(event) //A REVOIR
             document.getElementById('zoneText1').innerHTML="Connecté";
             click=1;
        }else{
+	   connexion=0;
+			socket.disconnect();
             $('body').addClass('disconnected');
             $('body').removeClass('connected');
             $("#myButton1").removeClass("button-connecte").addClass("button-deconnecte");
@@ -454,9 +434,6 @@ startedFonctionKey=1;
 if(startedFonctionKey==1 && startedFonctionMouse==0){ // si c'est l'un des fleches qui est pressé premierement
 envoyerDonneesAuServer(startedFonctionKey,cmd);
 }
-//else{
-	//keyFIFO.push(cmd);
-//}
 
 }
 
@@ -468,11 +445,10 @@ startedFonctionMouse=2;
 }
 if(startedFonctionMouse==2 && startedFonctionKey==0){ // si c'est le rond de joystick est bougé premierement
 cmd="SET CMD "+avant+" "+droite;
-envoyerDonneesAuServer(startedFonctionMouse,cmd);
+
+		envoyerDonneesAuServer(startedFonctionMouse,cmd);
+	
 }
-//else{
-//mouseFIFO.push(cmd);
-//}
 }
 
 function envoyerDonneesAuServer(startedFonction,cmd){
@@ -492,36 +468,28 @@ if(startedFonction == 1){ //startedFonctionKey
 	}
 }
 if(startedFonction == 2){ //startedFonctionMouse
-	//if(startedFonctionKey == 0){
-	//	commande=cmd+" 0 0";
-	//}
-	
-	//flag1=z
-	//flag2=a
-	//flag3=s
-	//flag4=d
-	if(flag1 == true && flag2 == false && flag4 == false){
+	if(pressed==1 && flag1 == true && flag2 == false && flag4 == false){
 		commande=cmd+" "+vitesseAltitude+" 0";
 	}
-	else if(flag1 == true && flag2 == true && flag4 == false){
+	else if(pressed==1 && flag1 == true && flag2 == true && flag4 == false){
 		commande=cmd+" "+vitesseAltitude+" "+VitesseRotation;
 	}
-	else if(flag1 == true && flag2 == false && flag4 == true){
+	else if(pressed==1 && flag1 == true && flag2 == false && flag4 == true){
 		commande=cmd+" "+vitesseAltitude+" "+VitesseRotation*(-1);
 	}
-	else if(flag3 == true && flag2 == false && flag4 == false){
+	else if(pressed==1 && flag3 == true && flag2 == false && flag4 == false){
 		commande=cmd+" "+vitesseAltitude*(-1)+" 0";
 	}
-	else if(flag3 == true && flag2 == true && flag4 == false){
+	else if(pressed==1 && flag3 == true && flag2 == true && flag4 == false){
 		commande=cmd+" "+vitesseAltitude*(-1)+" "+VitesseRotation;
 	}
-	else if(flag3 == true && flag2 == false && flag4 == true){
+	else if(pressed==1 && flag3 == true && flag2 == false && flag4 == true){
 		commande=cmd+" "+vitesseAltitude*(-1)+" "+VitesseRotation*(-1);
 	}
-	else if(flag2 == false && flag4 == true){
+	else if(pressed==1 && flag2 == false && flag4 == true){
 		commande=cmd+commande+" 0 "+VitesseRotation*(-1);
 	}
-	else if(flag2 == true && flag4 == false){
+	else if(pressed==1 && flag2 == true && flag4 == false){
 		commande=cmd+" 0 "+VitesseRotation;
 	}
 	else{
@@ -530,9 +498,8 @@ if(startedFonction == 2){ //startedFonctionMouse
 }
 
  socket.emit('message',commande);
-
 }
-	
+
 
 });
 
